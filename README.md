@@ -1,11 +1,11 @@
 # Command pipeline 
 
-##Build
+## Build
 ```
 make build
 ```
 
-##Run sample
+## Run sample
 ```
 make run
 ```
