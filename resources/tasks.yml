@@ -1,37 +1,40 @@
 config:
   steps:
-    - name: step-1
+    - name: checkout-java-microservice1
       commands:
-        - name: step-1-cmds-1-1-c
-          command: step-1-cmd-1-1-c
-    - name: step-2
+        - name: Checkout Java microservice1
+          command: git co https://abc.com/java-microservice1
+    - name: checkout-java-microservice2
       commands:
-        - name: step-2-cmds-2-1-c
-          command: step-2-cmd-2-1-c
-    - name: step-3
+        - name: Checkout Java microservice1
+          command: git co https://abc.com/java-microservice1
+    - name: compile-java-microservice1
       commands:
-        - name: step-3-cmds-3-c
-          command: step-3-cmd-3-c
+        - name: Compile java microservice1
+          command: cd microservice1 && mvn clean install
+    - name: compile-java-microservice2
+      commands:
+        - name: Compile java microservice2
+          command: cd microservice2 && mvn clean install
+    - name: create-docker-image-microservice1
+      commands:
+        - name: Create Docker image for microservice1
+          command: docker build
+    - name: create-docker-image-microservice2
+      commands:
+          - name: Create Docker image for microservice2
+            command: docker build
+
+  stages:
+    - name: Checkout
       steps:
-        - name: step-3-1
-          commands:
-            - name: step-3-1-cmds-3-1-1-c
-              command: step-3-1-cmd-3-1-1-c
-          steps:
-            - name: step-3-1-1
-              commands:
-                - name: step-3-1-1-cmds-3-1-1-1-c
-                  command: step-3-1-1-cmd-3-1-1-1-c
-                - name: step-3-1-1-cmds-3-1-1-2-c
-                  command: step-3-1-1-cmds-3-1-1-2-c
-              steps:
-                - name: step-3-1-1-1
-                  commands:
-                    - name: step-3-1-1-1-cmds-3-1-1-1-c
-                      command: step-3-1-1-1-cmd-3-1-1-1-c
-                    - name: step-3-1-1-1-cmds-3-1-1-1-2-c
-                      command: step-3-1-1-1-cmd-3-1-1-1-2-c
-    - name: step-4
-      commands:
-        - name: step-4-cmds-4-1-c
-          command: step-4-cmds-4-1-c
+        - checkout-java-microservice1
+        - checkout-java-microservice2
+    - name: Compilation
+      steps:
+        - compile-java-microservice1
+        - compile-java-microservice2
+    - name: Generate Artifacts
+      steps:
+        - create-docker-image-microservice1
+        - create-docker-image-microservice2

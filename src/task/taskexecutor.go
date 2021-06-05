@@ -13,14 +13,16 @@ type Executor func(task string, description string, level int) error
 
 func Execute(configFile string, executor Executor) {
 	config := readConfiguration(configFile)
-
-	for _, step := range config.Config.Step {
-		for _, stepDef := range step.Steps {
-			wg := &sync.WaitGroup{}
-			wg.Add(1)
-			ExecuteStep(stepDef, wg, executor, 0)
-			wg.Wait()
+	stepMap := parseSteps(config)
+	if !validate(config.Config.Stage, stepMap) {
+		log.Fatalf("Invalid configuration file!")
+	}
+	for _, stage := range config.Config.Stage {
+		var steps []Step
+		for _, stepName := range stage.Steps {
+			steps = append(steps, stepMap[stepName])
 		}
+		executeStepsAndWaitForCompletion(steps, 0, executor)
 	}
 }
 
@@ -42,7 +44,6 @@ func ExecuteStep(step Step, parentWg *sync.WaitGroup, executor Executor, level i
 	fmt.Println(fmt.Sprintf("+%s==== [ %s ] Execution of step %s started!", hyphen, time.Now().Format("15:04:05"), step.Name))
 	defer parentWg.Done()
 	executeCommandsAndWaitForCompletion(step.Commands, level, executor)
-	executeStepsAndWaitForCompletion(step.Steps, level, executor)
 	fmt.Println(fmt.Sprintf("+%s==== [ %s ] Execution of step %s completed!", hyphen, time.Now().Format("15:04:05"), step.Name))
 }
 

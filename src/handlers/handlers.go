@@ -13,6 +13,7 @@ func ConsoleLogger(task string, desc string, level int) error {
 		hyphen = hyphen + "+----"
 	}
 	fmt.Println(fmt.Sprintf("%s [ %s ] Starting execution of command %s, %s", hyphen, time.Now().Format("15:04:05"), task, desc))
+	time.Sleep(time.Second * 5)
 	fmt.Println(fmt.Sprintf("%s [ %s ] Execution of command %s, %s completed.", hyphen, time.Now().Format("15:04:05"), task, desc))
 	return nil
 }
