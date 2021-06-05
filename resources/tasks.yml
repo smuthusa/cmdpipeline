@@ -1,0 +1,37 @@
+config:
+  steps:
+    - name: step-1
+      commands:
+        - name: step-1-cmds-1-1-c
+          command: step-1-cmd-1-1-c
+    - name: step-2
+      commands:
+        - name: step-2-cmds-2-1-c
+          command: step-2-cmd-2-1-c
+    - name: step-3
+      commands:
+        - name: step-3-cmds-3-c
+          command: step-3-cmd-3-c
+      steps:
+        - name: step-3-1
+          commands:
+            - name: step-3-1-cmds-3-1-1-c
+              command: step-3-1-cmd-3-1-1-c
+          steps:
+            - name: step-3-1-1
+              commands:
+                - name: step-3-1-1-cmds-3-1-1-1-c
+                  command: step-3-1-1-cmd-3-1-1-1-c
+                - name: step-3-1-1-cmds-3-1-1-2-c
+                  command: step-3-1-1-cmds-3-1-1-2-c
+              steps:
+                - name: step-3-1-1-1
+                  commands:
+                    - name: step-3-1-1-1-cmds-3-1-1-1-c
+                      command: step-3-1-1-1-cmd-3-1-1-1-c
+                    - name: step-3-1-1-1-cmds-3-1-1-1-2-c
+                      command: step-3-1-1-1-cmd-3-1-1-1-2-c
+    - name: step-4
+      commands:
+        - name: step-4-cmds-4-1-c
+          command: step-4-cmds-4-1-c
